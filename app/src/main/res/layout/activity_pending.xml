@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hi.rps.PendingActivity">
+
+    <ListView
+        android:id="@+id/PlayRequest"
+        android:layout_width="198dp"
+        android:layout_height="305dp"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="32dp" />
+
+    <Button
+        android:id="@+id/Accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept"
+        tools:layout_editor_absoluteX="49dp"
+        tools:layout_editor_absoluteY="377dp" />
+
+    <Button
+        android:id="@+id/Reject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reject"
+        tools:layout_editor_absoluteX="203dp"
+        tools:layout_editor_absoluteY="377dp" />
+</android.support.constraint.ConstraintLayout>
