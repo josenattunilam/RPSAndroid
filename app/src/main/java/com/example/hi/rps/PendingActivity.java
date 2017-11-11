@@ -19,7 +19,11 @@ import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 
 import java.util.ArrayList;
 
-public class PendingActivity extends Activity implements AdapterView.OnClickListener, AdapterView.OnItemClickListener {
+public class PendingActivity extends Activity  {
+    ListView listView;
+    CustomAdapter customAdapter;
+    public  PendingActivity pendingActivity = null;
+    public  ArrayList<PendingList> customListViewValue = new ArrayList<PendingList>();
 
     ArrayList<String> pendingArray;
     ResponseReceiver receiver;
@@ -29,6 +33,7 @@ public class PendingActivity extends Activity implements AdapterView.OnClickList
         setContentView(R.layout.activity_pending);
 
         pendingArray=new ArrayList<>();
+        pendingActivity = this;
 
         IntentFilter filter=new IntentFilter(ResponseReceiver.ACTION_RESP);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -40,17 +45,7 @@ public class PendingActivity extends Activity implements AdapterView.OnClickList
         startService(connectionIntent);
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-        Log.d("TAG", pendingArray.get(i));
-        Button Accept = (Button) this.findViewById(R.id.Accept);
-        Button Reject = (Button) this.findViewById(R.id.Reject);
-    }
 
     public class ResponseReceiver extends BroadcastReceiver
     {
@@ -67,9 +62,30 @@ public class PendingActivity extends Activity implements AdapterView.OnClickList
     }
 
     private void UpdateListView() {
-        ListView updateListView=(ListView) findViewById(R.id.PlayRequest);
-        updateListView.setOnItemClickListener(this);
-        ArrayAdapter pendingAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,pendingArray);
-        updateListView.setAdapter(pendingAdapter);
+        listView =(ListView) findViewById(R.id.PlayRequest);
+        setListData();
+        customAdapter = new CustomAdapter(pendingActivity,customListViewValue);
+      //  ArrayAdapter pendingAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,pendingArray);
+        listView.setAdapter(customAdapter);
+    }
+
+    public void setListData()
+    {
+
+        for (int i = 0; i < pendingArray.size(); i++) {
+
+            final PendingList sched = new PendingList();
+           // String Name = pendingArray.get(i).substring(20, pendingArray.get(i).length() - 3).split("\" status=\"")[0];
+          //  String Status = pendingArray.get(i).substring(20, pendingArray.get(i).length() - 3).split("\" status=\"")[0];
+            Log.e("value",pendingArray.get(i));
+            /******* Firstly take data in model object ******/
+         //   sched.setName("Company "+i);
+         //   sched.setStatus("image"+i);
+
+
+            /******** Take Model Object in ArrayList **********/
+            customListViewValue.add( sched );
+        }
+
     }
 }

@@ -166,10 +166,14 @@ public class TCPConnectionService extends IntentService {
 
                     if ((charsRead = input.read(buffer)) != -1) {
                         back = new String(buffer).substring(0, charsRead);
-
+//<PlayRequest From="new1" With="new" status="pending"/>
+                        // ew1" With="new-pending"
+                        // change the value with & status as array value
                         String[] pla = back.split("\n");
 
                         for (int i = 0; i < pla.length; i++) {
+                            Log.e("resultValue",pla[i]);
+
                             String player = pla[i].substring(20, pla[i].length() - 3).split("\" status=\"")[0];
                             String status = pla[i].substring(20, pla[i].length() - 3).split("\" status=\"")[1];
 
