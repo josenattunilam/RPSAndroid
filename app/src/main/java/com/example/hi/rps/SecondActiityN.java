@@ -31,7 +31,7 @@ public class SecondActiityN extends AppCompatActivity implements View.OnClickLis
 
     public String st = "";
     public String s = "";
-    ResponseReceiver receiver;
+  //  ResponseReceiver receiver;
 
 
     @Override
@@ -40,14 +40,20 @@ public class SecondActiityN extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_second);
 
 
-        IntentFilter filter = new IntentFilter(SecondActiityN.ResponseReceiver.ACTION_RESP);
+       /* IntentFilter filter = new IntentFilter(SecondActiityN.ResponseReceiver.ACTION_RESP);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         receiver = new ResponseReceiver();
-        registerReceiver(receiver, filter);
+        registerReceiver(receiver, filter);*/
 
     }
 
-    public class ResponseReceiver extends BroadcastReceiver {
+    @Override
+    protected void onPause() {
+        super.onPause();
+       // unregisterReceiver(receiver);
+    }
+
+   /* public class ResponseReceiver extends BroadcastReceiver {
 
         public static final String ACTION_RESP = "com.example.hi.rps.SecondActiityN.MESSAGE_PROCESSED";
 
@@ -66,7 +72,7 @@ public class SecondActiityN extends AppCompatActivity implements View.OnClickLis
             intent1.putExtra("userName", s);
             startActivity(intent1);
         }
-    }
+    }*/
 
     @Override
     public void onClick(View v) {

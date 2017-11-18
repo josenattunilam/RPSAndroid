@@ -3,6 +3,7 @@ package com.example.hi.rps;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,17 +83,28 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
             /****** View Holder Object to contain tabitem.xml file elements ******/
 
             holder = new ViewHolder();
-            holder.textFrom = (TextView) vi.findViewById(R.id.txtRqstFrmName);
+            /*holder.textFrom = (TextView) vi.findViewById(R.id.txtRqstFrmName);
             holder.textStatus=(TextView)vi.findViewById(R.id.txtStatusShown);
             holder.btnAccept = (Button) vi.findViewById(R.id.btnAccept);
-            holder.btnReject = (Button) vi.findViewById(R.id.btnReject);
+            holder.btnReject = (Button) vi.findViewById(R.id.btnReject);*/
+            TextView textFrom = (TextView) vi.findViewById(R.id.txtRqstFrmName);
+            TextView textStatus=(TextView)vi.findViewById(R.id.txtStatusShown);
+            Button btnAccept = (Button) vi.findViewById(R.id.btnAccept);
+            Button btnReject = (Button) vi.findViewById(R.id.btnReject);
 
+            tempValues = ( PendingList ) data.get( position );
 
+            /************  Set Model values in Holder elements ***********/
+            Log.d("adapter",tempValues.getName());
+            Log.d("adapter",tempValues.getStatus());
+            textFrom.setText( tempValues.getName() );
+            textStatus.setText( tempValues.getStatus() );
             /************  Set holder with LayoutInflater ************/
             vi.setTag( holder );
         }
-        else
-            holder=(ViewHolder)vi.getTag();
+       /* else {
+            holder = (ViewHolder) vi.getTag();
+        }
 
         if(data.size()<=0)
         {
@@ -101,20 +113,21 @@ public class CustomAdapter extends BaseAdapter implements View.OnClickListener {
         }
         else
         {
-            /***** Get each Model object from Arraylist ********/
+            *//***** Get each Model object from Arraylist ********//*
             tempValues=null;
             tempValues = ( PendingList ) data.get( position );
 
-            /************  Set Model values in Holder elements ***********/
-
+            *//************  Set Model values in Holder elements ***********//*
+            Log.d("adapter",tempValues.getName());
+            Log.d("adapter",tempValues.getStatus());
             holder.textFrom.setText( tempValues.getName() );
             holder.textStatus.setText( tempValues.getStatus() );
 
 
-            /******** Set Item Click Listner for LayoutInflater for each row *******/
+            *//******** Set Item Click Listner for LayoutInflater for each row *******//*
 
           //  vi.setOnClickListener(new AdapterView.OnItemClickListener( position ));
-        }
+        }*/
         return vi;
     }
 

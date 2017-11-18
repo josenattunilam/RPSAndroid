@@ -63,9 +63,9 @@ public class PendingActivityCopy extends Activity implements AdapterView.OnClick
     }
 
     private void UpdateListView() {
-        ListView updateListView=(ListView) findViewById(R.id.PlayRequest);
-        updateListView.setOnItemClickListener(this);
+       // ListView updateListView=(ListView) findViewById(R.id.PlayRequest);
+       // updateListView.setOnItemClickListener(this);
         ArrayAdapter pendingAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,pendingArray);
-        updateListView.setAdapter(pendingAdapter);
+       // updateListView.setAdapter(pendingAdapter);
     }
 }

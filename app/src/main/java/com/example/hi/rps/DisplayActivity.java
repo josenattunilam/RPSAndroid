@@ -32,7 +32,7 @@ public class DisplayActivity extends Activity implements AdapterView.OnItemClick
 
 
 
-    //RReceiver receiver1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +45,7 @@ public class DisplayActivity extends Activity implements AdapterView.OnItemClick
 
         IntentFilter filter = new IntentFilter(DisplayActivity.ResponseReceiver.ACTION_RESP);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
-      //  receiver = new ResponseReceiver();
+
         registerReceiver(receiver, filter);
 
         Intent connectionIntent = new Intent(this, TCPConnectionService.class);
@@ -94,26 +94,9 @@ public class DisplayActivity extends Activity implements AdapterView.OnItemClick
         Log.d("TAG",send);
         MessageFunction();
 
-        /*IntentFilter filter = new IntentFilter(DisplayActivity.RReceiver.ACTION_RESP);
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        receiver1 = new RReceiver();
-        registerReceiver(receiver, filter);
-
-        Intent connectionIntent1 = new Intent(this, TCPConnectionService.class);
-        connectionIntent1.putExtra(TCPConnectionService.EXTRA_PARAM1, send);
-        startService(connectionIntent1);*/
 
     }
-    /*public class RReceiver extends BroadcastReceiver{
-        public static final String ACTION_RESP = "com.example.hi.DisplayActivity.rps.MESSAGE_PROCESSED";
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-
-
-        }
-    }*/
     private void MessageFunction() {
 
         final Handler handler = new Handler();
@@ -123,10 +106,7 @@ public class DisplayActivity extends Activity implements AdapterView.OnItemClick
 
                 try {
                     Socket s1=SocketHandler.getSocket();
-                    //Socket s = new Socket(ipAddress, 4444);
-                   // InetSocketAddress socketAddress = new InetSocketAddress(TCPConnectionService.ipAddress, 4444);
-                  //  SocketHandler.setSocket(s1);
-                  //  s1.connect(socketAddress);
+
                     OutputStream out1 = s1.getOutputStream();
                     PrintWriter output1 = new PrintWriter(out1);
                     Log.e("send",send.toString());

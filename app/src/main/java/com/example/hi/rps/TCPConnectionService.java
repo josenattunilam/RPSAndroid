@@ -169,16 +169,28 @@ public class TCPConnectionService extends IntentService {
 //<PlayRequest From="new1" With="new" status="pending"/>
                         // ew1" With="new-pending"
                         // change the value with & status as array value
+                        Log.d("back",back);
                         String[] pla = back.split("\n");
 
                         for (int i = 0; i < pla.length; i++) {
-                            Log.e("resultValue",pla[i]);
+                            Log.d("resultValue",pla[i]);
 
-                            String player = pla[i].substring(20, pla[i].length() - 3).split("\" status=\"")[0];
-                            String status = pla[i].substring(20, pla[i].length() - 3).split("\" status=\"")[1];
-
-                            PlayRequests.add(player + "-" + status);
-                            Log.d("TAG", player + "-" + status);
+                            String player = pla[i].substring(19, pla[i].length() - 3).split("\" status=\"")[0];
+                            String status = pla[i].substring(19, pla[i].length() - 3).split("\" status=\"")[1];
+                            String[] sep=player.split(" With=");
+                            String[] st1=sep[1].split("");
+                            Log.d("TAG1",st1[0]);
+                            Log.d("TAG2",st1[1]);
+                            Log.d("TAG3", sep[0]);
+                            Log.d("TAG4", sep[1]);
+                            String name=sep[0];
+                            name=name.replace("\"","");
+                            status=status.replace("\"","");
+                            //name=name.substring(1,name.length()-1);
+                            //status=status.substring(1,status.length()-1);
+                            Log.d("TAG5",name);
+                            PlayRequests.add(name + "," + status);
+                            Log.d("TAG6", name + "-" + status);
                         }
                     }
 
@@ -190,8 +202,8 @@ public class TCPConnectionService extends IntentService {
                         sendBroadcast(broadcastIntent);
 
 
-                        output.close();
-                        out.close();
+                       // output.close();
+                       // out.close();
 
 
                 } catch (IOException e) {
@@ -219,11 +231,19 @@ public class TCPConnectionService extends IntentService {
                         String[] pla = back.split("\n");
 
                         for (int i = 0; i < pla.length; i++) {
-                            String player = pla[i].substring(20, pla[i].length() - 3).split("\" status=\"")[0];
-                            String status = pla[i].substring(20, pla[i].length() - 3).split("\" status=\"")[1];
-
-                            MyRequests.add(player + "-" + status);
-                            Log.d("TAG", player + "-" + status);
+                            Log.d("resultValue",pla[i]);
+                            String player = pla[i].substring(19, pla[i].length() - 3).split("\" With=\"")[0];
+                            String status = pla[i].substring(19, pla[i].length() - 3).split("\" status=\"")[1];
+                            /*String[] sep=player.split(" With=");
+                            String[] st1=sep[1].split("");
+                            Log.d("TAG",st1[0]);
+                            Log.d("TAG",st1[1]);
+                            Log.d("TAG", sep[0]);
+                            Log.d("TAG", sep[1]);
+                            String name=st1[1];
+                            Log.d("TAG",name);*/
+                            MyRequests.add(player + "," + status);
+                            Log.d("TAG",  player+ "-" + status);
                         }
                     }
 
@@ -233,12 +253,65 @@ public class TCPConnectionService extends IntentService {
                     broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
                     broadcastIntent.putStringArrayListExtra("response", MyRequests);
                     sendBroadcast(broadcastIntent);
-                    output.close();
-                    out.close();
+                    //output.close();
+                    //out.close();
 
 
                 } catch (IOException e) {
                     Log.d("TAG", "error in myreq");
+                    e.printStackTrace();
+                }
+                break;
+
+            case "<CheckGameStatus/>":
+                try{
+                    out = clientSocket.getOutputStream();
+                    output = new PrintWriter(out);
+
+                    output.println("<CheckGameStatus/>");
+                    output.flush();
+
+                    input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    String resultText = input.readLine();
+                    Log.d("TAG", resultText);
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction(PlayGameActivity.ResponseReceiver.ACTION_RESP);
+                    broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+                    broadcastIntent.putExtra(EXTRA_RESPONSE, resultText);
+                   // output.close();
+                   // out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "<LeaveSession/>":
+                try {
+                    out = clientSocket.getOutputStream();
+                    output = new PrintWriter(out);
+
+                    output.println("<LeaveSession/>");
+                    output.flush();
+
+                    input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    String resultText = input.readLine();
+                    Log.d("TAG", resultText);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "<Exit/>":
+                try {
+                    out = clientSocket.getOutputStream();
+                    output = new PrintWriter(out);
+
+                    output.println("<Exit/>");
+                    output.flush();
+
+                    input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    String resultText = input.readLine();
+                    Log.d("TAG", resultText);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;

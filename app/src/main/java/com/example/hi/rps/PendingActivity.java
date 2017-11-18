@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,10 +20,15 @@ import android.widget.TextView;
 import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PendingActivity extends Activity  {
     ListView listView;
     CustomAdapter customAdapter;
+    CustomAdapterPending customAdapterPending;
+    RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
     public  PendingActivity pendingActivity = null;
     public  ArrayList<PendingList> customListViewValue = new ArrayList<PendingList>();
 
@@ -61,12 +68,21 @@ public class PendingActivity extends Activity  {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
+
     private void UpdateListView() {
-        listView =(ListView) findViewById(R.id.PlayRequest);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        customAdapterPending = new CustomAdapterPending(customListViewValue,getApplicationContext());
         setListData();
-        customAdapter = new CustomAdapter(pendingActivity,customListViewValue);
-      //  ArrayAdapter pendingAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,pendingArray);
-        listView.setAdapter(customAdapter);
+        recyclerView.setAdapter(customAdapterPending);
     }
 
     public void setListData()
@@ -75,17 +91,18 @@ public class PendingActivity extends Activity  {
         for (int i = 0; i < pendingArray.size(); i++) {
 
             final PendingList sched = new PendingList();
-           // String Name = pendingArray.get(i).substring(20, pendingArray.get(i).length() - 3).split("\" status=\"")[0];
-          //  String Status = pendingArray.get(i).substring(20, pendingArray.get(i).length() - 3).split("\" status=\"")[0];
-            Log.e("value",pendingArray.get(i));
-            /******* Firstly take data in model object ******/
-         //   sched.setName("Company "+i);
-         //   sched.setStatus("image"+i);
+            Log.d("value",pendingArray.get(i));
+            String[] str_array = pendingArray.get(i).split(",");
+            String Name = str_array[0];
+            String Status = str_array[1];
+            Log.d("Name",Name);
+            String st=pendingArray.get(i);
+            sched.setName(Name);
+            sched.setStatus(Status);
 
-
-            /******** Take Model Object in ArrayList **********/
             customListViewValue.add( sched );
         }
+        customAdapterPending.setlist(customListViewValue);
 
     }
 }

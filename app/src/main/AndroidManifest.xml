@@ -3,7 +3,7 @@
     package="com.example.hi.rps">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -23,12 +23,13 @@
         <activity android:name=".PendingActivity" />
         <activity android:name=".SentRequestActivity" />
         <activity android:name=".SecondActiityN" />
-
+        <activity android:name=".PlayGameActivity"></activity>
 
         <service
-            android:name="com.example.hi.rps.TCPConnectionService"
+            android:name=".TCPConnectionService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
 
     </application>
 
